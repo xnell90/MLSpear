@@ -1,4 +1,3 @@
-## Here are the packages required to use MLF
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,7 +14,7 @@ def mean_std(X):
     stds  = list(X.std(axis = 0))
 
     return(means, stds)
-    
+
 def min_max_scaling(X, mins, maxs):
     for i in range(0, X.shape[1]):
         minimum = mins[i]
@@ -82,7 +81,6 @@ def train_validate_test(X):
 
     return (X_train, X_valid, X_test)
 
-#  Activation functions and their derivatives (Hidden Layer)
 def tanh(z):
     return np.tanh(z)
 
