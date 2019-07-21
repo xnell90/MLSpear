@@ -32,16 +32,9 @@ class Tanh:
         self.W = np.random.randn(self.indims, self.outdims)
         self.B = np.random.randn(1, self.outdims)
 
-        self.Del_W = 0
-        self.Del_B = 0
-
-        self.G_W = 1
-        self.G_B = 1
-
-        self.M_W = 0
-        self.M_B = 0
-        self.V_W = 0
-        self.V_B = 0
+        self.Del_W, self.Del_B                   = 0, 0
+        self.G_W,   self.G_B                     = 1, 1
+        self.M_W,   self.V_W, self.M_B, self.V_B = 0, 0, 0, 0
 
         if scale_parameters:
             scale = np.sqrt(2 / (self.indims + self.outdims))
