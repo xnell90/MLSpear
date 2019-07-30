@@ -7,7 +7,7 @@ class Softmax:
     # outdims = the number of output dimensions (positive integer)
 
     #Returns:
-    # None, but once Softmax layer is initialized, weights are automatically
+    # None, but once Softmax layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims):
         self.output  = softmax

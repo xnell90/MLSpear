@@ -8,7 +8,7 @@ class Tanh:
     # p       = the drop out rate. Default value is 1.
 
     #Returns:
-    # None, but once Tanh layer is initialized, weights are automatically
+    # None, but once Tanh layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims, p = 1):
         self.activation = tanh
@@ -27,7 +27,7 @@ class Tanh:
     # method'
 
     #Returns:
-    # None
+    # None but initializes the weights and biases.
     def weight_initialize(self, scale_parameters = True):
         self.W = np.random.randn(self.indims, self.outdims)
         self.B = np.random.randn(1, self.outdims)

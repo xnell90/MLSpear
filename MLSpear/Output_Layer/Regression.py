@@ -7,7 +7,7 @@ class Regression:
     # outdims = the number of output dimensions (positive integer)
 
     #Returns:
-    # None, but once Regression layer is initialized, weights are automatically
+    # None, but once Regression layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims):
         self.output  = identity

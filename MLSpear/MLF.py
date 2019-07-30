@@ -40,12 +40,9 @@ def ohe(X, kth):
     if kth == 0:
         return np.hstack((OHE, X[:, 1:]))
     elif kth == X.shape[1] - 1:
-        return np.hstack((X[:, 0:kth],
-                          OHE))
+        return np.hstack((X[:, 0:kth], OHE))
     else:
-        return np.hstack((X[:, 0:kth],
-                          OHE,
-                          X[:, kth + 1:]))
+        return np.hstack((X[:, 0:kth], OHE, X[:, kth + 1:]))
 # $$$$
 def __ohe_cv(X):
     entries = []
@@ -59,17 +56,16 @@ def __ohe_cv(X):
         else:
             value_counts[entry] = 1
 
-    Num_columns = len(list(value_counts))
-    Encoding_matrix = np.zeros((X.shape[0],
-                                Num_columns))
+    num_columns = len(list(value_counts))
+    encoding_matrix = np.zeros((X.shape[0], Num_columns))
 
     for i in range(0, len(entries)):
-        for j in range(0, Num_columns):
+        for j in range(0, num_columns):
             values = list(value_counts)
             if entries[i]  == values[j]:
-                Encoding_matrix[i,j] = 1
+                encoding_matrix[i,j] = 1
 
-    return Encoding_matrix
+    return encoding_matrix
 
 def train_validate_test(X):
     split_1 = (X.shape[0] * 7) // 10
@@ -158,34 +154,33 @@ def __round(P):
 
         return result
 
-def sum_squared_error(Y, Y_hat):
-    return 0.5 * np.sum((Y - Y_hat) ** 2)
+def sum_squared_error(Y, P):
+    return 0.5 * np.sum((Y - P) ** 2)
 
 def cost_entropy(Y, P):
     if P.shape[1] == 1 and Y.shape[1] == 1:
         column = Y * np.log(P) + (1 - Y) * np.log(1 - P)
         result = - np.sum(column)
-        return result
     else:
         result = - np.sum(Y * np.log(P))
-        return result
+
+    return result
 
 # ROC plots the ROC curve and prints out the AUC
 def ROC(P, Y):
     x_FPR = []
     y_TPR = []
 
-    p_thresholds = [1 - i/999 for i in range(0, 1000)]
+    probability_thresholds = [1 - i/999 for i in range(0, 1000)]
 
-    for p_threshold in p_thresholds:
+    for p_threshold in probability_thresholds:
         pT = __round_by(p_threshold, P)
         (FPR, TPR) = __TPR_FPR(pT, Y_test)
         x_FPR.append(FPR)
         y_TPR.append(TPR)
 
     plt.plot(x_FPR, y_TPR)
-    plt.title("ROC Curve From the Model",
-              fontweight = 'bold')
+    plt.title("ROC Curve From the Model", fontweight = 'bold')
     plt.xlabel("FPR")
     plt.ylabel("TPR")
 
@@ -195,34 +190,28 @@ def ROC(P, Y):
     print("AUC for the ROC Curve: " + str(AUC))
     plt.show()
 
-# $$$$
+# Hidden functions
 def __round_by(p, P):
     result = []
 
     for i in range(0, len(P)):
-        if P[i] >= p:
-            result.append(1)
-        else:
-            result.append(0)
+        if P[i] >= p: result.append(1)
+        else: result.append(0)
 
     return result
 
-def __TPR_FPR(pT, Y_test):
+def __TPR_FPR(probability_threshold, Y_test):
     (TP, FN) = (0, 0)
     (FP, TN) = (0, 0)
 
     rows = len(pT)
     for i in range(0, rows):
-        if pT[i] == Y_test[i]:
-            if pT[i] == 1:
-                TP += 1
-            else:
-                TN += 1
+        if probability_threshold[i] == Y_test[i]:
+            if probability_threshold[i] == 1: TP += 1
+            else: TN += 1
         else:
-            if pT[i] == 1:
-                FP += 1
-            else:
-                FN += 1
+            if probability_threshold[i] == 1: FP += 1
+            else: FN += 1
 
     TPR = TP / (TP + FN)
     FPR = FP / (TN + FP)
