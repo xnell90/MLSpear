@@ -220,11 +220,6 @@ def __TPR_FPR(probability_threshold, Y_test):
 
 # ---------------------------------------------------------------------------
 # Other Functions
-def sumToRow(M):
-    R = np.sum(M, axis = 0)
-    R = R.reshape(1, R.shape[0])
-
-    return R
 
 def row_sum(M):
     R = np.sum(M, axis = 0)
