@@ -143,8 +143,8 @@ class PReLU:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def backward(self, D, lr, mtype, mu, l1, l2):
         self.Del_W = mu * self.Del_W + (-lr * (self.A).T).dot(D * self.derivative_a(self.P, self.H))
-        self.Del_B = mu * self.Del_B + (-lr * sumToRow(D * self.derivative_a(self.P, self.H)))
-        self.Del_P = mu * self.Del_P + (-lr * sumToRow(D * self.derivative_p(self.H)))
+        self.Del_B = mu * self.Del_B + (-lr * row_sum(D * self.derivative_a(self.P, self.H)))
+        self.Del_P = mu * self.Del_P + (-lr * row_sum(D * self.derivative_p(self.H)))
 
         self.weight_update(l1, l2)
 
@@ -168,16 +168,16 @@ class PReLU:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
         self.G_W = self.G_W + ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
-        self.G_B = self.G_B + (sumToRow(D * self.derivative_a(self.P, self.H)) ** 2)
-        self.G_P = self.G_P + (sumToRow(D * self.derivative_p(self.H)) ** 2)
+        self.G_B = self.G_B + (row_sum(D * self.derivative_a(self.P, self.H)) ** 2)
+        self.G_P = self.G_P + (row_sum(D * self.derivative_p(self.H)) ** 2)
 
         lr_W = lr / np.sqrt(self.G_W + e)
         lr_B = lr / np.sqrt(self.G_B + e)
         lr_P = lr / np.sqrt(self.G_P + e)
 
         self.Del_W = mu * self.Del_W - lr_W * ((self.A).T).dot(D * self.derivative_a(self.P, self.H))
-        self.Del_B = mu * self.Del_B - lr_B * (sumToRow(D * self.derivative_a(self.P, self.H)))
-        self.Del_P = mu * self.Del_P - lr_P * (sumToRow(D * self.derivative_p(self.H)))
+        self.Del_B = mu * self.Del_B - lr_B * (row_sum(D * self.derivative_a(self.P, self.H)))
+        self.Del_P = mu * self.Del_P - lr_P * (row_sum(D * self.derivative_p(self.H)))
 
         self.weight_update(l1, l2)
 
@@ -203,16 +203,16 @@ class PReLU:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9, g = 0.9):
         self.G_W = g * self.G_W + (1 - g) * ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
-        self.G_B = g * self.G_B + (1 - g) * (sumToRow(D * self.derivative_a(self.P, self.H)) ** 2)
-        self.G_P = g * self.G_P + (1 - g) * (sumToRow(D * self.derivative_p(self.H)) ** 2)
+        self.G_B = g * self.G_B + (1 - g) * (row_sum(D * self.derivative_a(self.P, self.H)) ** 2)
+        self.G_P = g * self.G_P + (1 - g) * (row_sum(D * self.derivative_p(self.H)) ** 2)
 
         lr_W = lr / np.sqrt(self.G_W + e)
         lr_B = lr / np.sqrt(self.G_B + e)
         lr_P = lr / np.sqrt(self.G_P + e)
 
         self.Del_W = mu * self.Del_W - lr_W * ((self.A).T).dot(D * self.derivative_a(self.P, self.H))
-        self.Del_B = mu * self.Del_B - lr_B * (sumToRow(D * self.derivative_a(self.P, self.H)))
-        self.Del_P = mu * self.Del_P - lr_P * (sumToRow(D * self.derivative_p(self.H)))
+        self.Del_B = mu * self.Del_B - lr_B * (row_sum(D * self.derivative_a(self.P, self.H)))
+        self.Del_P = mu * self.Del_P - lr_P * (row_sum(D * self.derivative_p(self.H)))
 
         self.weight_update(l1, l2)
 
@@ -245,16 +245,16 @@ class PReLU:
 
         Eta_W = lr / np.sqrt(V_W_hat + e)
 
-        self.M_B = b * self.M_B + (1 - b) * (sumToRow(D * self.derivative_a(self.P, self.H)))
-        self.V_B = d * self.V_B + (1 - d) * ((sumToRow(D * self.derivative_a(self.P, self.H))) ** 2)
+        self.M_B = b * self.M_B + (1 - b) * (row_sum(D * self.derivative_a(self.P, self.H)))
+        self.V_B = d * self.V_B + (1 - d) * ((row_sum(D * self.derivative_a(self.P, self.H))) ** 2)
 
         M_B_hat = self.M_B / (1 + (b ** t))
         V_B_hat = self.V_B / (1 + (d ** t))
 
         Eta_B = lr / np.sqrt(V_B_hat + e)
 
-        self.M_P = b * self.M_P + (1 - b) * (sumToRow(D * self.derivative_p(self.H)))
-        self.V_P = d * self.V_P + (1 - d) * ((sumToRow(D * self.derivative_p(self.H))) ** 2)
+        self.M_P = b * self.M_P + (1 - b) * (row_sum(D * self.derivative_p(self.H)))
+        self.V_P = d * self.V_P + (1 - d) * ((row_sum(D * self.derivative_p(self.H))) ** 2)
 
         M_P_hat = self.M_P / (1 + (b ** t))
         V_P_hat = self.V_P / (1 + (d ** t))

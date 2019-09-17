@@ -134,7 +134,7 @@ class Tanh:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def backward(self, D, lr, mtype, mu, l1, l2):
         self.Del_W = mu * self.Del_W + (-lr * (self.A).T).dot(D * self.derivative(self.H))
-        self.Del_B = mu * self.Del_B + (-lr * sumToRow(D * self.derivative(self.H)))
+        self.Del_B = mu * self.Del_B + (-lr * row_sum(D * self.derivative(self.H)))
 
         self.weight_update(l1, l2)
 
@@ -158,13 +158,13 @@ class Tanh:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
         self.G_W = self.G_W + ((((self.A).T).dot(D * self.derivative(self.H))) ** 2)
-        self.G_B = self.G_B + (sumToRow(D * self.derivative(self.H)) ** 2)
+        self.G_B = self.G_B + (row_sum(D * self.derivative(self.H)) ** 2)
 
         lr_W = lr / np.sqrt(self.G_W + e)
         lr_B = lr / np.sqrt(self.G_B + e)
 
         self.Del_W = mu * self.Del_W - lr_W * (((self.A).T).dot(D * self.derivative(self.H)))
-        self.Del_B = mu * self.Del_B - lr_B * (sumToRow(D * self.derivative(self.H)))
+        self.Del_B = mu * self.Del_B - lr_B * (row_sum(D * self.derivative(self.H)))
 
         self.weight_update(l1, l2)
 
@@ -190,13 +190,13 @@ class Tanh:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9, g = 0.9):
         self.G_W = g * self.G_W + (1 - g) * ((((self.A).T).dot(D * self.derivative(self.H))) ** 2)
-        self.G_B = g * self.G_B + (1 - g) * (sumToRow(D * self.derivative(self.H)) ** 2)
+        self.G_B = g * self.G_B + (1 - g) * (row_sum(D * self.derivative(self.H)) ** 2)
 
         lr_W = lr / np.sqrt(self.G_W + e)
         lr_B = lr / np.sqrt(self.G_B + e)
 
         self.Del_W = mu * self.Del_W - lr_W * (((self.A).T).dot(D * self.derivative(self.H)))
-        self.Del_B = mu * self.Del_B - lr_B * (sumToRow(D * self.derivative(self.H)))
+        self.Del_B = mu * self.Del_B - lr_B * (row_sum(D * self.derivative(self.H)))
 
         self.weight_update(l1, l2)
 
@@ -229,8 +229,8 @@ class Tanh:
 
         Eta_W = lr / np.sqrt(V_W_hat + e)
 
-        self.M_B = b * self.M_B + (1 - b) * (sumToRow(D * self.derivative(self.H)))
-        self.V_B = d * self.V_B + (1 - d) * (sumToRow(D * self.derivative(self.H)) ** 2)
+        self.M_B = b * self.M_B + (1 - b) * (row_sum(D * self.derivative(self.H)))
+        self.V_B = d * self.V_B + (1 - d) * (row_sum(D * self.derivative(self.H)) ** 2)
 
         M_B_hat = self.M_B / (1 + (b ** t))
         V_B_hat = self.V_B / (1 + (d ** t))

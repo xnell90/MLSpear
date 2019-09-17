@@ -21,8 +21,8 @@ class Batch_Normalization:
     #Returns:
     # None but updates Gamma and Beta
     def weight_update(self, lr, A_norm, D):
-        self.Gamma = self.Gamma - lr * sumToRow(A_norm.T.dot(D))
-        self.Beta  = self.Beta  - lr * sumToRow(D)
+        self.Gamma = self.Gamma - lr * row_sum(A_norm.T.dot(D))
+        self.Beta  = self.Beta  - lr * row_sum(D)
 
     #Parameters:
     # A     = input numpy matrix
