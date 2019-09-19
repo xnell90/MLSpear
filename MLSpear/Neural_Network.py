@@ -1,6 +1,7 @@
 from MLSpear.MLF import *
 import numpy as np
 import matplotlib.pyplot as plt
+import networkx as nx
 
 class Neural_Network:
     #Parameters:
@@ -144,12 +145,85 @@ class Neural_Network:
             self.display_errors(errors, self.error_metric)
 
     #Returns:
+    # a graphical display of the neural network architecture (excluding Batch_Normalization layers)
+    def draw_neural_network(self):
+        #layer_names
+        #num_node
+
+        layer_names = []
+        num_node    = []
+        seen_non_batch_layer = False
+
+        for layer in self.layers:
+            layer_name = type(layer).__name__
+
+            if layer_name != 'Batch_Normalization':
+                if seen_non_batch_layer == False:
+                    seen_non_batch_layer = True
+                    layer_names.append('Input')
+                    num_node.append(layer.indims)
+
+                layer_names.append(layer_name)
+                if layer_name in ['Softmax', 'Regression']:
+                    num_node.append(layer.outdims)
+                else:
+                    num_node.append(layer.outdims + 1)
+
+        G = nx.DiGraph()
+
+        posns = {}
+        num_layers = len(num_node)
+
+        layers = []
+        for i in range(num_layers):
+            layer = []
+            num_nodes = num_node[i]
+            layer_name = layer_names[i]
+
+            for j in range(num_nodes):
+                G.add_node((i, j, layer_name))
+                layer.append((i, j, layer_name))
+
+                posns[(i, j, layer_name)] = [i + 1, - j + (num_nodes // 2)]
+
+            layers.append(layer)
+
+        for i in range(num_layers - 1):
+            current_layer = layers[i]
+            next_layer    = layers[i + 1]
+
+            for current_node in current_layer:
+                for next_node in next_layer:
+                    if next_node[1] != 0 or next_node[0] == num_layers - 1:
+                        G.add_edge(current_node, next_node)
+
+        node_colors = []
+        for node in G:
+            color = ""
+
+            if node[1] == 0: color += 'dark'
+
+            if node[0] == 0: color += 'blue'
+            elif node[0] == num_layers - 1: color += 'green'
+            else: color += 'orange'
+
+            node_colors.append(color)
+
+        parameters = {'with_labels': False,
+                      'node_color': node_colors,
+                      'font_size': 15,
+                      'node_size': 50,
+                      'font_color': 'purple'}
+        nx.draw(G, posns, **parameters)
+        plt.show()
+
+    #Returns:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
         params = {}
-        params['layers']               = self.layers
-        params['num_layers']           = self.num_layers
-        params['scale_WB']             = self.scale_WB
-        params['print_error']          = self.print_error
+        params['layers']      = self.layers
+        params['num_layers']  = self.num_layers
+        params['scale_WB']    = self.scale_WB
+        params['print_error'] = self.print_error
 
         return params
