@@ -147,9 +147,6 @@ class Neural_Network:
     #Returns:
     # a graphical display of the neural network architecture (excluding Batch_Normalization layers)
     def draw_neural_network(self):
-        #layer_names
-        #num_node
-
         layer_names = []
         num_node    = []
         seen_non_batch_layer = False
@@ -158,7 +155,7 @@ class Neural_Network:
             layer_name = type(layer).__name__
 
             if layer_name != 'Batch_Normalization':
-                if seen_non_batch_layer == False:
+                if not seen_non_batch_layer:
                     seen_non_batch_layer = True
                     layer_names.append('Input')
                     num_node.append(layer.indims)
