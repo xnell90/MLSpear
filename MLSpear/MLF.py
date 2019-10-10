@@ -45,23 +45,20 @@ def ohe(X, kth):
         return np.hstack((X[:, 0:kth], OHE, X[:, kth + 1:]))
 # $$$$
 def __ohe_cv(X):
-    entries = []
-    for i in range(0, X.shape[0]):
-        entries.append(X[i][0])
+    entries = [X[i][0] for i in range(0, X.shape[0])]
 
     value_counts = {}
     for entry in entries:
-        if entry in list(value_counts):
-            value_counts[entry] += 1
-        else:
-            value_counts[entry] = 1
+        if entry in list(value_counts): value_counts[entry] += 1
+        else: value_counts[entry] = 1
 
     num_columns = len(list(value_counts))
-    encoding_matrix = np.zeros((X.shape[0], Num_columns))
+    encoding_matrix = np.zeros((X.shape[0], num_columns))
 
     for i in range(0, len(entries)):
         for j in range(0, num_columns):
             values = list(value_counts)
+
             if entries[i]  == values[j]:
                 encoding_matrix[i,j] = 1
 
@@ -143,8 +140,7 @@ def recall(P, Y):
 
 # $$$$
 def __round(P):
-    if P.shape[1] == 1:
-        return np.round(P)
+    if P.shape[1] == 1: return np.round(P)
     else:
         result  = np.zeros(P.shape)
         max_col = P.argmax(axis = 1)
@@ -187,18 +183,13 @@ def ROC(P, Y):
     AUC = 0
     for i in range(0, 999):
         AUC += 0.5 * (y_TPR[i + 1] + y_TPR[i]) * (x_FPR[i + 1] - x_FPR[i])
+
     print("AUC for the ROC Curve: " + str(AUC))
     plt.show()
 
 # Hidden functions
 def __round_by(p, P):
-    result = []
-
-    for i in range(0, len(P)):
-        if P[i] >= p: result.append(1)
-        else: result.append(0)
-
-    return result
+    return [int(P[i] >= p) for i in range(0, len(P))]
 
 def __TPR_FPR(probability_threshold, Y_test):
     (TP, FN) = (0, 0)
