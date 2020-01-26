@@ -116,8 +116,7 @@ class Neural_Network:
         errors = []
         for i in range(cycles):
             for j in range(X_.shape[0]):
-                if j + batch_size > X_.shape[0]:
-                    break
+                if j + batch_size > X_.shape[0]: break
 
                 X_batch = X_[j:(j + batch_size), :]
                 P_batch = self.dropout_predict(X_batch, mtype, mu)

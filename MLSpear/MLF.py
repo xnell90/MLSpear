@@ -59,8 +59,7 @@ def __ohe_cv(X):
         for j in range(0, num_columns):
             values = list(value_counts)
 
-            if entries[i]  == values[j]:
-                encoding_matrix[i,j] = 1
+            if entries[i]  == values[j]: encoding_matrix[i,j] = 1
 
     return encoding_matrix
 
@@ -125,10 +124,6 @@ def softmax(X):
         P = P / col_sum
 
         return P
-
-#  Identity Funciton
-def identity(X):
-    return X
 
 # Error Metrics
 def accuracy(P, Y):
