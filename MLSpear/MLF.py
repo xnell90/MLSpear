@@ -73,6 +73,9 @@ def train_validate_test(X):
 
     return (X_train, X_valid, X_test)
 
+def identity(z):
+    return z
+
 def tanh(z):
     return np.tanh(z)
 
