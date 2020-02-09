@@ -1,6 +1,6 @@
 # Basic Tutorial on MLSpear
 
-<div style="text-align: justify">MLSpear is a python package that allows users to create fully connected neural networks. It does not depend on any deep learning frameworks such as TensorFlow, and PyTorch. Instead, it uses only numpy (for storing vectors and using vector operations), networkx (for drawing the neural network), and matplotlib.pyplot (for sketching error curves). To use the package, first import it and all necessary libraries.</div>
+<p align = 'justify'>MLSpear is a python package that allows users to create fully connected neural networks. It does not depend on any deep learning frameworks such as TensorFlow, and PyTorch. Instead, it uses only numpy (for storing vectors and using vector operations), networkx (for drawing the neural network), and matplotlib.pyplot (for sketching error curves). To use the package, first import it and all necessary libraries.</p>
 
 
 ```python
@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 ## Neural Network
 
-<div style="text-align: justify">Creating a neural network, is very simple to do. Simply call in the class Neural_Network with the first parameter a list of layers, and on the second parameter set the print_error either True or False. Additionally, you can draw the neural network architecture calling the draw_neural_network method.</div>
+<p align="justify">Creating a neural network, is very simple to do. Simply call in the class Neural_Network with the first parameter a list of layers, and on the second parameter set the print_error either True or False. Additionally, you can draw the neural network architecture calling the draw_neural_network method.</p>
 
 
 ```python
@@ -23,7 +23,7 @@ Model.draw_neural_network()
 ![png](output_5_0.png)
 
 
-<div style="text-align: justify">Notice that each layer has two parameters. The first parameter represents the input dimension, while the second parameter represents the output dimension. When the neural network is drawn, the second layer represents the Tanh layer, the third layer represents the PreLu Layer, and the last layer represents the output layer, i.e the softmax layer (Note: Batch Normalization layer will not be shown in the draw_neural_network method). To train the model, first lets generate the donut dataset.</div>
+<p align="justify">Notice that each layer has two parameters. The first parameter represents the input dimension, while the second parameter represents the output dimension. When the neural network is drawn, the second layer represents the Tanh layer, the third layer represents the PreLu Layer, and the last layer represents the output layer, i.e the softmax layer (Note: Batch Normalization layer will not be shown in the draw_neural_network method). To train the model, first lets generate the donut dataset.</p>
 
 
 ```python
@@ -67,7 +67,7 @@ Model.train(X, Y, 3000, 0.0001, batch_size = X.shape[0])
 ![png](output_9_0.png)
 
 
-<div style="text-align: justify">X represents a 2D numpy (n x d) array where each row represents an instance of a data set. Y represents the target set (n x 1 numpy array), 3000 represents the number of epochs, 0.0001 is the learning rate, and batch_size simply is the size of your training batch (Note: if batch_size = X.shape[0], that gives the vanilla gradient descent algorithm). Now, lets plot the boundary curve from our model. </div>
+<p align="justify">X represents a 2D numpy (n x d) array where each row represents an instance of a data set. Y represents the target set (n x 1 numpy array), 3000 represents the number of epochs, 0.0001 is the learning rate, and batch_size simply is the size of your training batch (Note: if batch_size = X.shape[0], that gives the vanilla gradient descent algorithm). Now, lets plot the boundary curve from our model. </p>
 
 
 ```python
