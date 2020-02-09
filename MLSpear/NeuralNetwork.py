@@ -1,9 +1,9 @@
-from MLSpear.MLF import *
+from mlspear.mlf import *
 import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
 
-class Neural_Network:
+class NeuralNetwork:
     #Parameters:
     # layers      = an array of activation layers.
     # scale_WB    = boolean that determines whether you scale weights and biases

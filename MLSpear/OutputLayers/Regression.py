@@ -1,16 +1,16 @@
-from MLSpear.MLF import *
+from mlspear.mlf import *
 import numpy as np
 
-class Softmax:
+class Regression:
     #Parameters:
     # indims  = the number of input dimensions (positive integer)
     # outdims = the number of output dimensions (positive integer)
 
     #Returns:
-    # None, but once Softmax layer is initialized, weights and biases are automatically
+    # None, but once Regression layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims):
-        self.output  = softmax
+        self.output  = identity
 
         self.indims  = indims
         self.outdims = outdims
@@ -123,14 +123,14 @@ class Softmax:
     #Returns:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
-        self.G_W = self.G_W + (((self.A).T).dot(D) ** 2)
+        self.G_W = self.G_W + ((((self.A).T).dot(D)) ** 2)
         self.G_B = self.G_B + (row_sum(D) ** 2)
 
         lr_W = lr / np.sqrt(self.G_W + e)
         lr_B = lr / np.sqrt(self.G_B + e)
 
         self.Del_W = mu * self.Del_W - lr_W * ((self.A).T).dot(D)
-        self.Del_B = mu * self.Del_B - lr_B * (row_sum(D))
+        self.Del_B = mu * self.Del_B - lr_B * row_sum(D)
 
         self.weight_update(l1, l2)
 
@@ -155,14 +155,14 @@ class Softmax:
     #Returns:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
     def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9, g = 0.9):
-        self.G_W = g * self.G_W + (1 - g) * (((self.A).T).dot(D) ** 2)
+        self.G_W = g * self.G_W + (1 - g) * ((((self.A).T).dot(D)) ** 2)
         self.G_B = g * self.G_B + (1 - g) * (row_sum(D) ** 2)
 
         lr_W = lr / np.sqrt(self.G_W + e)
         lr_B = lr / np.sqrt(self.G_B + e)
 
         self.Del_W = mu * self.Del_W - lr_W * ((self.A).T).dot(D)
-        self.Del_B = mu * self.Del_B - lr_B * (row_sum(D))
+        self.Del_B = mu * self.Del_B - lr_B * row_sum(D)
 
         self.weight_update(l1, l2)
 

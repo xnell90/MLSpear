@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ---------------------------------------------------------------------------
-# Pre-processing Functions
+# Pre-processing Functions...
 def min_max(X):
     mins = list(X.min(axis = 0))
     maxs = list(X.max(axis = 0))

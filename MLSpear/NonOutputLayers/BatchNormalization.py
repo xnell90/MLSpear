@@ -1,7 +1,7 @@
-from MLSpear.MLF import *
+from mlspear.mlf import *
 import numpy as np
 
-class Batch_Normalization:
+class BatchNormalization:
 
     def __init__(self):
         self.mu    = 0

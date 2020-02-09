@@ -1,18 +1,18 @@
-from MLSpear.MLF import *
+from mlspear.mlf import *
 import numpy as np
 
-class Tanh:
+class ReLU:
     #Parameters:
     # indims  = the number of input dimensions (positive integer)
     # outdims = the number of output dimensions (positive integer)
     # p       = the drop out rate. Default value is 1.
 
     #Returns:
-    # None, but once Tanh layer is initialized, weights and biases are automatically
+    # None, but once ReLU layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims, p = 1):
-        self.activation = tanh
-        self.derivative = tanh_derivative
+        self.activation = ReLu
+        self.derivative = ReLu_derivative
 
         self.indims  = indims
         self.outdims = outdims
@@ -66,16 +66,16 @@ class Tanh:
     # Z = a numpy output matrix after forward propagation.
     def dropout_forward(self, A, mtype, mu):
         if mtype == 'nesterov':
-            self.W = self.W + self.Del_W
-            self.B = self.B + self.Del_B
+            self.W = self.W + mu * self.Del_W
+            self.B = self.B + mu * self.Del_B
 
             M = np.random.rand(*A.shape) < self.p
             self.A = A * M
             self.H = (self.A).dot(self.W) + self.B
             self.Z = self.activation(self.H)
 
-            self.W = self.W - self.Del_W
-            self.B = self.B - self.Del_B
+            self.W = self.W - mu * self.Del_W
+            self.B = self.B - mu * self.Del_B
 
             return self.Z
 
@@ -98,15 +98,15 @@ class Tanh:
     # Z = a numpy output matrix after forward propagation.
     def forward(self, A, mtype, mu):
         if mtype == 'nesterov':
-            self.W = self.W + self.Del_W
-            self.B = self.B + self.Del_B
+            self.W = self.W + mu * self.Del_W
+            self.B = self.B + mu * self.Del_B
 
             self.A = A
             self.H = (self.A).dot(self.W) + self.B
             self.Z = self.activation(self.H)
 
-            self.W = self.W - self.Del_W
-            self.B = self.B - self.Del_B
+            self.W = self.W - mu * self.Del_W
+            self.B = self.B - mu * self.Del_B
 
             return self.p * self.Z
 
@@ -254,5 +254,6 @@ class Tanh:
         params['B']          = self.B
         params['indims']     = self.indims
         params['outdims']    = self.outdims
+        params['p']          = self.p
 
         return params
