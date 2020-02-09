@@ -4,7 +4,7 @@
 
 
 ```python
-from MLSpear import *
+from mlspear import *
 import numpy as np
 import matplotlib.pyplot as plt
 ```
@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 
 ```python
-Model = Neural_Network([Tanh(2, 8), PReLU(8, 8), Softmax(8, 1)], print_error = True)
+Model = NeuralNetwork([Tanh(2, 8), PReLU(8, 8), Softmax(8, 1)], print_error = True)
 Model.draw_neural_network()
 ```
 
@@ -160,7 +160,7 @@ Next, create a linear regression model by calling in the Neural Network class wi
 
 
 ```python
-Model = Neural_Network([Regression(1, 1)], print_error = True)
+Model = NeuralNetwork([Regression(1, 1)], print_error = True)
 ```
 
 Train the model using vanilla gradient descent with 200 epochs at learning rate 0.00001 (Note: you can use any gradient descent method).
@@ -216,7 +216,7 @@ Create a logistic regression model by calling in Neural Network with one softmax
 
 
 ```python
-Model = Neural_Network([Softmax(2, 1)], print_error = True)
+Model = NeuralNetwork([Softmax(2, 1)], print_error = True)
 ```
 
 Train the model using batch gradient descent (or any gradient descent methods).
