@@ -73,15 +73,6 @@ def train_validate_test(X):
 
     return (X_train, X_valid, X_test)
 
-def identity(z):
-    return z
-
-def tanh(z):
-    return np.tanh(z)
-
-def tanh_derivative(z):
-    return 1 - (np.tanh(z) ** 2)
-
 def ReLu(z):
     result = z
     result[z < 0] = 0

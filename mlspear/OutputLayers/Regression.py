@@ -10,7 +10,7 @@ class Regression:
     # None, but once Regression layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims):
-        self.output  = identity
+        self.output  = (lambda z: z)
 
         self.indims  = indims
         self.outdims = outdims

@@ -11,8 +11,8 @@ class Tanh:
     # None, but once Tanh layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims, p = 1):
-        self.activation = tanh
-        self.derivative = tanh_derivative
+        self.activation = (lambda z: np.tanh(z))
+        self.derivative = (lambda z: 1 - (np.tanh(z) ** 2))
 
         self.indims  = indims
         self.outdims = outdims
