@@ -1,5 +1,6 @@
-from mlspear.mlf import *
 import numpy as np
+
+from mlspear.mlf import *
 
 class PReLU:
     #Parameters:
