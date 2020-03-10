@@ -3,6 +3,7 @@ import networkx as nx
 import numpy as np
 
 from mlspear.mlf import *
+from tqdm import tqdm
 
 class NeuralNetwork:
     #Parameters:
@@ -115,7 +116,7 @@ class NeuralNetwork:
         Y_ = Data[:, X.shape[1]:]
 
         errors = []
-        for i in range(cycles):
+        for i in tqdm(range(cycles), desc = 'Training Progress: '):
             for j in range(X_.shape[0]):
                 if j + batch_size > X_.shape[0]: break
 

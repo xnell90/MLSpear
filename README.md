@@ -63,8 +63,11 @@ To train the neural network, use the train method that takes in the following pa
 Model.train(X, Y, 3000, 0.0001, batch_size = X.shape[0])
 ```
 
+    Training Progress: 100%|██████████| 3000/3000 [00:26<00:00, 112.97it/s]
 
-![png](output_9_0.png)
+
+
+![png](output_9_1.png)
 
 
 <div style="text-align: justify">X represents a 2D numpy (n x d) array where each row represents an instance of a data set. Y represents the target set (n x 1 numpy array), 3000 represents the number of epochs, 0.0001 is the learning rate, and batch_size simply is the size of your training batch (Note: if batch_size = X.shape[0], that gives the vanilla gradient descent algorithm). Now, lets plot the boundary curve from our model. </div>
@@ -98,13 +101,16 @@ The train method allows other parameters to be passed in. For example, you can s
 
 
 ```python
-Model.train(X, Y, 4, 0.0001, batch_size = 300, mu = 0.000001, optimizer = 'rmsprop') 
+Model.train(X, Y, 6, 0.0001, batch_size = 300, mu = 0.0000001, mtype = 'nesterov', optimizer = 'rmsprop') 
 # To add momentum, simply include the mtype parameter, set it to either 'nesterov' or 'conventional',
 # and set mu to a number between 0 and 1.
 ```
 
+    Training Progress: 100%|██████████| 6/6 [01:03<00:00, 10.62s/it]
 
-![png](output_13_0.png)
+
+
+![png](output_13_1.png)
 
 
 Again, you can plot the decision boundary and you will get a similar result.
@@ -116,7 +122,7 @@ boundary = []
 for x in np.linspace(-3, 3, 1000):
     for y in np.linspace(-3, 3, 1000):
         
-        point      = np.array([x, y])
+        point = np.array([x, y])
         prediction = Model.predict(point)
         
         if np.abs(prediction - 0.5) < 0.01:
@@ -170,8 +176,11 @@ Train the model using vanilla gradient descent with 200 epochs at learning rate 
 Model.train(X, Y, 200, 0.00001, batch_size = X.shape[0])
 ```
 
+    Training Progress: 100%|██████████| 200/200 [00:00<00:00, 2424.17it/s]
 
-![png](output_22_0.png)
+
+
+![png](output_22_1.png)
 
 
 Finally, draw the line of best fit to the dataset.
@@ -226,8 +235,11 @@ Train the model using batch gradient descent (or any gradient descent methods).
 Model.train(X, Y, 2, 0.001)
 ```
 
+    Training Progress: 100%|██████████| 2/2 [00:03<00:00,  1.97s/it]
 
-![png](output_31_0.png)
+
+
+![png](output_31_1.png)
 
 
 Finally, plot the decision boundary for the two gaussian clouds.
@@ -240,7 +252,7 @@ boundary = []
 for x in np.linspace(-4, 8, 1000):
     for y in np.linspace(-4, 8, 1000):
         
-        point      = np.array([x, y])
+        point = np.array([x, y])
         prediction = Model.predict(point)
         
         if np.abs(prediction - 0.5) < 0.001:
