@@ -148,7 +148,6 @@ class NeuralNetwork:
     #Returns:
     # a graphical display of the neural network architecture (excluding Batch_Normalization layers)
     def draw_neural_network(self):
-        layer_names = []
         num_node    = []
         seen_non_batch_layer = False
 
@@ -158,10 +157,8 @@ class NeuralNetwork:
             if layer_name != 'Batch_Normalization':
                 if not seen_non_batch_layer:
                     seen_non_batch_layer = True
-                    layer_names.append('Input')
                     num_node.append(layer.indims)
 
-                layer_names.append(layer_name)
                 if layer_name in ['Softmax', 'Regression']:
                     num_node.append(layer.outdims)
                 else:
@@ -176,13 +173,12 @@ class NeuralNetwork:
         for i in range(num_layers):
             layer = []
             num_nodes = num_node[i]
-            layer_name = layer_names[i]
 
             for j in range(num_nodes):
-                G.add_node((i, j, layer_name))
-                layer.append((i, j, layer_name))
+                G.add_node((i, j))
+                layer.append((i, j))
 
-                posns[(i, j, layer_name)] = [i + 1, - j + (num_nodes // 2)]
+                posns[(i, j)] = [i + 1, - j + (num_nodes // 2)]
 
             layers.append(layer)
 
@@ -209,9 +205,7 @@ class NeuralNetwork:
 
         parameters = {'with_labels': False,
                       'node_color': node_colors,
-                      'font_size': 15,
-                      'node_size': 50,
-                      'font_color': 'purple'}
+                      'node_size': 50}
         nx.draw(G, posns, **parameters)
         plt.show()
 
