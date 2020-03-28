@@ -152,51 +152,50 @@ def cost_entropy(Y, P):
     return result
 
 # ROC plots the ROC curve and prints out the AUC
-def ROC(P, Y):
-    x_FPR = []
-    y_TPR = []
+def roc(P, Y):
+    x_fpr = []
+    y_tpr = []
 
-    probability_thresholds = [1 - i/999 for i in range(0, 1000)]
+    p_thresholds = [1 - i/999 for i in range(0, 1000)]
 
-    for p_threshold in probability_thresholds:
-        pT = __round_by(p_threshold, P)
-        (FPR, TPR) = __TPR_FPR(pT, Y_test)
-        x_FPR.append(FPR)
-        y_TPR.append(TPR)
+    for p_threshold in p_thresholds:
+        PT = __round_by(p_threshold, P)
+        (fpr, tpr) = __tpr_fpr(PT, Y)
+        x_fpr.append(fpr)
+        y_tpr.append(tpr)
 
-    plt.plot(x_FPR, y_TPR)
+    plt.plot(x_fpr, y_tpr)
     plt.title("ROC Curve From the Model", fontweight = 'bold')
     plt.xlabel("FPR")
     plt.ylabel("TPR")
 
-    AUC = 0
+    auc = 0
     for i in range(0, 999):
-        AUC += 0.5 * (y_TPR[i + 1] + y_TPR[i]) * (x_FPR[i + 1] - x_FPR[i])
+        auc += 0.5 * (y_tpr[i + 1] + y_tpr[i]) * (x_fpr[i + 1] - x_fpr[i])
 
-    print("AUC for the ROC Curve: " + str(AUC))
+    print("AUC for the ROC Curve: " + str(auc))
     plt.show()
 
 # Hidden functions
-def __round_by(p, P):
-    return [int(P[i] >= p) for i in range(0, len(P))]
+def __round_by(p_threshold, P):
+    return [int(P[i] >= p_threshold) for i in range(0, len(P))]
 
-def __TPR_FPR(probability_threshold, Y_test):
-    (TP, FN) = (0, 0)
-    (FP, TN) = (0, 0)
+def __tpr_fpr(PT, Y):
+    (tp, fn) = (0, 0)
+    (fp, tn) = (0, 0)
 
-    rows = len(pT)
-    for i in range(0, rows):
-        if probability_threshold[i] == Y_test[i]:
-            if probability_threshold[i] == 1: TP += 1
-            else: TN += 1
+    for i in range(0, len(PT)):
+        if PT[i] == Y[i]:
+            if PT[i] == 1: tp += 1
+            else: tn += 1
         else:
-            if probability_threshold[i] == 1: FP += 1
-            else: FN += 1
+            if PT[i] == 1: fp += 1
+            else: fn += 1
 
-    TPR = TP / (TP + FN)
-    FPR = FP / (TN + FP)
+    tpr = tp / (tp + fn)
+    fpr = fp / (tn + fp)
 
-    return (FPR, TPR)
+    return (fpr, tpr)
 
 # ---------------------------------------------------------------------------
 # Other Functions
