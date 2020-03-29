@@ -201,7 +201,4 @@ def __tpr_fpr(PT, Y):
 # Other Functions
 
 def row_sum(M):
-    R = np.sum(M, axis = 0)
-    R = R.reshape(1, R.shape[0])
-
-    return R
+    return np.sum(M, axis = 0).reshape(1, M.shape[1])
