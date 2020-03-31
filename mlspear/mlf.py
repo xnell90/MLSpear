@@ -110,7 +110,7 @@ def PReLu_derivative_p(a):
 #  Softmax and Sigmoid combined
 def softmax(X):
     if X.shape[1] == 1:
-        return 1 / (1 + np.exp(- X))
+        return np.where(X >= 0, 1 / (1 + np.exp(- X)), np.exp(X) / (1 + np.exp(X)))
     else:
         P = np.exp(X)
         col_sum = np.apply_along_axis(np.sum, 1, P)
