@@ -2,7 +2,7 @@ import numpy as np
 
 from mlspear.mlf import *
 
-class Softmax:
+class Classification:
     #Parameters:
     # indims  = the number of input dimensions (positive integer)
     # outdims = the number of output dimensions (positive integer)
