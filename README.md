@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 
 ```python
-Model = NeuralNetwork([Tanh(2, 8), PReLU(8, 8), Softmax(8, 1)], print_error = True)
+Model = NeuralNetwork([Tanh(2, 8), PReLU(8, 8), Classification(8, 1)], print_error = True)
 Model.draw_neural_network()
 ```
 
@@ -63,7 +63,7 @@ To train the neural network, use the train method that takes in the following pa
 Model.train(X, Y, 3000, 0.0001, batch_size = X.shape[0])
 ```
 
-    Training Progress: 100%|██████████| 3000/3000 [00:26<00:00, 112.97it/s]
+    Training Progress: 100%|██████████| 3000/3000 [00:23<00:00, 125.94it/s]
 
 
 
@@ -106,7 +106,7 @@ Model.train(X, Y, 6, 0.0001, batch_size = 300, mu = 0.0000001, mtype = 'nesterov
 # and set mu to a number between 0 and 1.
 ```
 
-    Training Progress: 100%|██████████| 6/6 [01:03<00:00, 10.62s/it]
+    Training Progress: 100%|██████████| 6/6 [00:38<00:00,  6.49s/it]
 
 
 
@@ -176,7 +176,7 @@ Train the model using vanilla gradient descent with 200 epochs at learning rate 
 Model.train(X, Y, 200, 0.00001, batch_size = X.shape[0])
 ```
 
-    Training Progress: 100%|██████████| 200/200 [00:00<00:00, 2424.17it/s]
+    Training Progress: 100%|██████████| 200/200 [00:00<00:00, 3001.65it/s]
 
 
 
@@ -225,7 +225,7 @@ Create a logistic regression model by calling in Neural Network with one softmax
 
 
 ```python
-Model = NeuralNetwork([Softmax(2, 1)], print_error = True)
+Model = NeuralNetwork([Classification(2, 1)], print_error = True)
 ```
 
 Train the model using batch gradient descent (or any gradient descent methods).
@@ -235,7 +235,7 @@ Train the model using batch gradient descent (or any gradient descent methods).
 Model.train(X, Y, 2, 0.001)
 ```
 
-    Training Progress: 100%|██████████| 2/2 [00:03<00:00,  1.97s/it]
+    Training Progress: 100%|██████████| 2/2 [00:01<00:00,  1.00it/s]
 
 
 
