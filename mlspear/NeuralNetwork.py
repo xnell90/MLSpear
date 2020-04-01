@@ -159,7 +159,7 @@ class NeuralNetwork:
                     seen_non_batch_layer = True
                     num_node.append(layer.indims)
 
-                if layer_name in ['Softmax', 'Regression']:
+                if layer_name in ['Classification', 'Regression']:
                     num_node.append(layer.outdims)
                 else:
                     num_node.append(layer.outdims + 1)
