@@ -30,39 +30,6 @@ def z_score_scaling(X, means, stds):
 
         X[:, i] =  (X[:, i] - mean) / std
 
-# Warning: kth must be a valid column, otherwise there will be an
-# error.
-def ohe(X, kth):
-    X = X.astype(object)
-    column = X[:, kth].reshape(X.shape[0], 1)
-    OHE = __ohe_cv(column)
-
-    if kth == 0:
-        return np.hstack((OHE, X[:, 1:]))
-    elif kth == X.shape[1] - 1:
-        return np.hstack((X[:, 0:kth], OHE))
-    else:
-        return np.hstack((X[:, 0:kth], OHE, X[:, kth + 1:]))
-# $$$$
-def __ohe_cv(X):
-    entries = [X[i][0] for i in range(0, X.shape[0])]
-
-    value_counts = {}
-    for entry in entries:
-        if entry in list(value_counts): value_counts[entry] += 1
-        else: value_counts[entry] = 1
-
-    num_columns = len(list(value_counts))
-    encoding_matrix = np.zeros((X.shape[0], num_columns))
-
-    for i in range(0, len(entries)):
-        for j in range(0, num_columns):
-            values = list(value_counts)
-
-            if entries[i]  == values[j]: encoding_matrix[i,j] = 1
-
-    return encoding_matrix
-
 def train_validate_test(X):
     split_1 = (X.shape[0] * 7) // 10
     split_2 = split_1 + ((X.shape[0] * 15) // 100)
