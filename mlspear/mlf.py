@@ -73,27 +73,6 @@ def train_validate_test(X):
 
     return (X_train, X_valid, X_test)
 
-def PReLu(p, a):
-    result = a
-    _p_ = p * np.ones(a.shape)
-    result[a <= 0] = _p_[a <= 0] * a[a <= 0]
-
-    return result
-
-def PReLu_derivative_a(p, a):
-    result = a
-    result[a > 0] = 1
-    _p_ = p * np.ones(a.shape)
-    result[a <= 0] = _p_[a <= 0]
-
-    return result
-
-def PReLu_derivative_p(a):
-    result = a
-    result[a > 0] = 0
-
-    return result
-
 #  Softmax and Sigmoid combined
 def softmax(X):
     if X.shape[1] == 1:

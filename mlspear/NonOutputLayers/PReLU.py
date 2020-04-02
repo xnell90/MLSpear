@@ -12,9 +12,9 @@ class PReLU:
     # None, but once PReLU layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims, p = 1):
-        self.activation   = PReLu
-        self.derivative_a = PReLu_derivative_a
-        self.derivative_p = PReLu_derivative_p
+        self.activation   = (lambda p, a: np.where(a < 0, p * a, a))
+        self.derivative_a = (lambda p, a: np.where(a < 0, p, 1))
+        self.derivative_p = (lambda a: np.where(a < 0, a, 0))
 
         self.indims  = indims
         self.outdims = outdims
