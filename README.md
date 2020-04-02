@@ -4,9 +4,10 @@
 
 
 ```python
-from mlspear import *
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
+from mlspear import *
 ```
 
 ## Neural Network
@@ -29,17 +30,17 @@ Model.draw_neural_network()
 ```python
 #Classification (Non Linear)
 points = np.random.randn(10000, 2)
-green  = [] 
+green  = []
 red    = []
 
 for point in points:
     x = point[0]
     y = point[1]
-    
+
     r = np.sqrt(x ** 2 + y ** 2)
     if r < 1: green.append([x, y])
     if r > 2 and r < 3: red.append([x, y])
-    
+
 green = np.array(green)
 red   = np.array(red)
 
@@ -79,10 +80,10 @@ boundary = []
 
 for x in np.linspace(-3, 3, 1000):
     for y in np.linspace(-3, 3, 1000):
-        
+
         point = np.array([x, y])
         prediction = Model.predict(point)
-        
+
         if np.abs(prediction - 0.5) < 0.01:
             boundary.append([x, y])
 
@@ -101,7 +102,7 @@ The train method allows other parameters to be passed in. For example, you can s
 
 
 ```python
-Model.train(X, Y, 6, 0.0001, batch_size = 300, mu = 0.0000001, mtype = 'nesterov', optimizer = 'rmsprop') 
+Model.train(X, Y, 6, 0.0001, batch_size = 300, mu = 0.0000001, mtype = 'nesterov', optimizer = 'rmsprop')
 # To add momentum, simply include the mtype parameter, set it to either 'nesterov' or 'conventional',
 # and set mu to a number between 0 and 1.
 ```
@@ -121,10 +122,10 @@ Again, you can plot the decision boundary and you will get a similar result.
 boundary = []
 for x in np.linspace(-3, 3, 1000):
     for y in np.linspace(-3, 3, 1000):
-        
+
         point = np.array([x, y])
         prediction = Model.predict(point)
-        
+
         if np.abs(prediction - 0.5) < 0.01:
             boundary.append([x, y])
 
@@ -251,10 +252,10 @@ boundary = []
 
 for x in np.linspace(-4, 8, 1000):
     for y in np.linspace(-4, 8, 1000):
-        
+
         point = np.array([x, y])
         prediction = Model.predict(point)
-        
+
         if np.abs(prediction - 0.5) < 0.001:
             boundary.append([x, y])
 
@@ -267,4 +268,3 @@ plt.show()
 
 
 ![png](output_33_0.png)
-
