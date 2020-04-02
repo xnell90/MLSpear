@@ -73,19 +73,6 @@ def train_validate_test(X):
 
     return (X_train, X_valid, X_test)
 
-def ReLu(z):
-    result = z
-    result[z < 0] = 0
-
-    return result
-
-def ReLu_derivative(z):
-    result = z
-    result[z < 0] = 0
-    result[z > 0] = 1
-
-    return result
-
 def PReLu(p, a):
     result = a
     _p_ = p * np.ones(a.shape)

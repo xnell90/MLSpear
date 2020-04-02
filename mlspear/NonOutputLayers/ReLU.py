@@ -12,8 +12,8 @@ class ReLU:
     # None, but once ReLU layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims, p = 1):
-        self.activation = ReLu
-        self.derivative = ReLu_derivative
+        self.activation = (lambda z: np.maximum(np.zeros(z.shape), z))
+        self.derivative = (lambda z: np.where(z < 0, 0, 1))
 
         self.indims  = indims
         self.outdims = outdims
