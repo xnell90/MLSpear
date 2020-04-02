@@ -30,13 +30,26 @@ def z_score_scaling(X, means, stds):
 
         X[:, i] =  (X[:, i] - mean) / std
 
-def train_validate_test(X):
-    split_1 = (X.shape[0] * 7) // 10
-    split_2 = split_1 + ((X.shape[0] * 15) // 100)
+def one_hot_encode(X):
+    if type(X) == np.ndarray: cat_labels = list(set(X.flatten()))
+    else: cat_labels = list(set(X))
 
-    X_train = X[0:split_1, :]
-    X_valid = X[split_1:split_2, :]
-    X_test  = X[split_2:, :]
+    row_num = len(X)
+    col_num = len(cat_labels)
+
+    ohe = np.zeros((row_num, col_num))
+    for i in range(row_num):
+        ohe[i, cat_labels.index(X[i])] = 1
+
+    return ohe
+
+def train_validate_test(X):
+    i = (X.shape[0] * 7) // 10
+    j = i + ((X.shape[0] * 15) // 100)
+
+    X_train = X[0:i, :]
+    X_valid = X[i:j, :]
+    X_test  = X[j:, :]
 
     return (X_train, X_valid, X_test)
 
