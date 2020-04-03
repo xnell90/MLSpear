@@ -31,15 +31,15 @@ def z_score_scaling(X, means, stds):
         X[:, i] =  (X[:, i] - mean) / std
 
 def one_hot_encode(X):
-    if type(X) == np.ndarray: cat_labels = list(set(X.flatten()))
-    else: cat_labels = list(set(X))
+    if type(X) == np.ndarray: category_labels = list(set(X.flatten()))
+    else: category_labels = list(set(X))
 
     row_num = len(X)
-    col_num = len(cat_labels)
+    col_num = len(category_labels)
 
     ohe = np.zeros((row_num, col_num))
     for i in range(row_num):
-        ohe[i, cat_labels.index(X[i])] = 1
+        ohe[i, category_labels.index(X[i])] = 1
 
     return ohe
 
