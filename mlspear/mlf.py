@@ -13,7 +13,7 @@ def mean_std(X):
     means = list(X.mean(axis = 0))
     stds  = list(X.std(axis = 0))
 
-    return(means, stds)
+    return (means, stds)
 
 def min_max_scaling(X, mins, maxs):
     for i in range(0, X.shape[1]):
