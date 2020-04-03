@@ -37,11 +37,8 @@ class BatchNormalization:
     def train_forward(self, A, mtype, mu, e = 1e-9, alpha = 0.9):
         self.A  = A
 
-        mu_b = np.mean(A, axis = 0)
-        mu_b = mu_b.reshape((1, mu_b.shape[0]))
-        
-        sigma_b = np.std(A, axis = 0)
-        sigma_b = sigma_b.reshape((1, sigma_b.shape[0]))
+        mu_b    = np.mean(A, axis = 0).reshape((1, A.shape[1]))
+        sigma_b = np.std(A, axis = 0).reshape((1, A.shape[1]))
 
         A_norm  = (A - mu_b) / np.sqrt((sigma_b ** 2) + e)
 
