@@ -39,7 +39,7 @@ class BatchNormalization:
 
         mu_b = np.mean(A, axis = 0)
         mu_b = mu_b.reshape((1, mu_b.shape[0]))
-
+        
         sigma_b = np.std(A, axis = 0)
         sigma_b = sigma_b.reshape((1, sigma_b.shape[0]))
 
