@@ -43,15 +43,21 @@ def one_hot_encode(X):
 
     return ohe
 
-def train_validate_test(X):
-    i = (X.shape[0] * 7) // 10
-    j = i + ((X.shape[0] * 15) // 100)
+def train_test_split(X, include_val_set = True):
+    i = (X.shape[0] * 70) // 100
+    if include_val_set:
+        j = i + ((X.shape[0] * 15) // 100)
 
-    X_train = X[0:i, :]
-    X_valid = X[i:j, :]
-    X_test  = X[j:, :]
+        X_train = X[0:i, :]
+        X_valid = X[i:j, :]
+        X_test  = X[j:, :]
 
-    return (X_train, X_valid, X_test)
+        return (X_train, X_valid, X_test)
+    else:
+        X_train = X[0:i, :]
+        X_test  = X[i:, :]
+
+        return (X_train, X_test)
 
 #  Softmax and Sigmoid combined
 def softmax(X):
