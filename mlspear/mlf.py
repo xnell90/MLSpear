@@ -65,16 +65,13 @@ def softmax(X):
         return np.where(X >= 0, 1 / (1 + np.exp(- X)), np.exp(X) / (1 + np.exp(X)))
     else:
         P = np.exp(X)
-        col_sum = np.apply_along_axis(np.sum, 1, P)
-        col_sum = col_sum.reshape((col_sum.shape[0], 1))
-        P = P / col_sum
+        N = np.apply_along_axis(np.sum, 1, P).reshape((P.shape[0], 1))
 
-        return P
+        return P / N
 
 # Error Metrics
 def accuracy(P, Y):
-    diff = np.abs(__round(P) - Y)
-    return 1 - np.sum(diff) / (Y.shape[0] * Y.shape[1])
+    return 1 - np.sum(np.abs(__round(P) - Y)) / (Y.shape[0] * Y.shape[1])
 
 def recall(P, Y):
     return np.sum(__round(P) * Y) / np.sum(Y)
@@ -83,11 +80,11 @@ def recall(P, Y):
 def __round(P):
     if P.shape[1] == 1: return np.round(P)
     else:
-        result  = np.zeros(P.shape)
-        max_col = P.argmax(axis = 1)
+        result = np.zeros(P.shape)
+        colmax = P.argmax(axis = 1)
 
         for row in range(0, result.shape[0]):
-            result[row, max_col[row]] = 1
+            result[row, colmax[row]] = 1
 
         return result
 
@@ -108,10 +105,10 @@ def roc(P, Y):
     x_fpr = []
     y_tpr = []
 
-    p_thresholds = [1 - i/999 for i in range(0, 1000)]
+    p_s = [1 - i/999 for i in range(0, 1000)]
 
-    for p_threshold in p_thresholds:
-        PT = __round_by(p_threshold, P)
+    for p in p_s:
+        PT = __round_by(p, P)
         (fpr, tpr) = __tpr_fpr(PT, Y)
         x_fpr.append(fpr)
         y_tpr.append(tpr)
@@ -129,8 +126,8 @@ def roc(P, Y):
     plt.show()
 
 # Hidden functions
-def __round_by(p_threshold, P):
-    return [int(P[i] >= p_threshold) for i in range(0, len(P))]
+def __round_by(p, P):
+    return [int(P[i] >= p) for i in range(0, len(P))]
 
 def __tpr_fpr(PT, Y):
     (tp, fn) = (0, 0)
