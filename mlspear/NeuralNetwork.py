@@ -45,7 +45,7 @@ class NeuralNetwork:
     def dropout_predict(self, X, mtype = 'conventional', mu = 0):
         P = X
         for layer in self.layers:
-            if type(layer).__name__ == "Batch_Normalization":
+            if type(layer).__name__ == "BatchNormalization":
                 P = layer.train_forward(P, mtype, mu)
             elif layer.p < 1 and layer.p > 0:
                 P = layer.dropout_forward(P, mtype, mu)
@@ -154,7 +154,7 @@ class NeuralNetwork:
         for layer in self.layers:
             layer_name = type(layer).__name__
 
-            if layer_name != 'Batch_Normalization':
+            if layer_name != 'BatchNormalization':
                 if not seen_non_batch_layer:
                     seen_non_batch_layer = True
                     num_node.append(layer.indims)
