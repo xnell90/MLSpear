@@ -217,5 +217,6 @@ class NeuralNetwork:
         params['num_layers']  = self.num_layers
         params['scale_WB']    = self.scale_WB
         params['print_error'] = self.print_error
+        params['error_metric'] = self.error_metric
 
         return params
