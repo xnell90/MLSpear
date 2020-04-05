@@ -132,7 +132,8 @@ class Tanh:
     #      (non-negative real number)
 
     #Returns:
-    # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
+    # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
+    # backpropagated to the previous layer
     def backward(self, D, lr, mtype, mu, l1, l2):
         self.Del_W = mu * self.Del_W + (-lr * (self.A).T).dot(D * self.derivative(self.H))
         self.Del_B = mu * self.Del_B + (-lr * row_sum(D * self.derivative(self.H)))
@@ -156,7 +157,8 @@ class Tanh:
     # e = small parameter to avoid division by zero. Default value is 1e-9
 
     #Returns:
-    # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
+    # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
+    # backpropagated to the previous layer
     def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
         self.G_W = self.G_W + ((((self.A).T).dot(D * self.derivative(self.H))) ** 2)
         self.G_B = self.G_B + (row_sum(D * self.derivative(self.H)) ** 2)
@@ -188,7 +190,8 @@ class Tanh:
     #     gradients. Default value is 0.9
 
     #Returns:
-    # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
+    # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
+    # backpropagated to the previous layer
     def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9, g = 0.9):
         self.G_W = g * self.G_W + (1 - g) * ((((self.A).T).dot(D * self.derivative(self.H))) ** 2)
         self.G_B = g * self.G_B + (1 - g) * (row_sum(D * self.derivative(self.H)) ** 2)

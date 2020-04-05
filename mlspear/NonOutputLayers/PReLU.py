@@ -141,7 +141,8 @@ class PReLU:
     #      (non-negative real number)
 
     #Returns:
-    # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
+    # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
+    # backpropagated to the previous layer
     def backward(self, D, lr, mtype, mu, l1, l2):
         self.Del_W = mu * self.Del_W + (-lr * (self.A).T).dot(D * self.derivative_a(self.P, self.H))
         self.Del_B = mu * self.Del_B + (-lr * row_sum(D * self.derivative_a(self.P, self.H)))
@@ -166,7 +167,8 @@ class PReLU:
     # e = small parameter to avoid division by zero. Default value is 1e-9
 
     #Returns:
-    # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
+    # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
+    # backpropagated to the previous layer
     def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
         self.G_W = self.G_W + ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
         self.G_B = self.G_B + (row_sum(D * self.derivative_a(self.P, self.H)) ** 2)
@@ -201,7 +203,8 @@ class PReLU:
     #     gradients. Default value is 0.9
 
     #Returns:
-    # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
+    # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
+    # backpropagated to the previous layer
     def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9, g = 0.9):
         self.G_W = g * self.G_W + (1 - g) * ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
         self.G_B = g * self.G_B + (1 - g) * (row_sum(D * self.derivative_a(self.P, self.H)) ** 2)
@@ -236,7 +239,8 @@ class PReLU:
     # e = small parameter to avoid division by zero. Default value is 1e-9
 
     #Returns:
-    # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
+    # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
+    # backpropagated to the previous layer
     def adam_backward(self, D, lr, mtype, mu, t, l1, l2, b = 0.9, d = 0.9, e = 1e-9):
         self.M_W = b * self.M_W + (1 - b) * ((self.A).T).dot(D * self.derivative_a(self.P, self.H))
         self.V_W = d * self.V_W + (1 - d) * ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
