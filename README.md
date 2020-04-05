@@ -20,9 +20,7 @@ Model = NeuralNetwork([Tanh(2, 8), PReLU(8, 8), Classification(8, 1)], print_err
 Model.draw_neural_network()
 ```
 
-
-![png](output_5_0.png)
-
+<p align="center"><img src="output_5_0.png" /></p>
 
 <div style="text-align: justify">Notice that each layer has two parameters. The first parameter represents the input dimension, while the second parameter represents the output dimension. When the neural network is drawn, the second layer represents the Tanh layer, the third layer represents the PreLu Layer, and the last layer represents the output layer, i.e the softmax layer (Note: Batch Normalization layer will not be shown in the draw_neural_network method). To train the model, first lets generate the donut dataset.</div>
 
@@ -53,9 +51,7 @@ Y = np.zeros((X.shape[0], 1))
 Y[0:green.shape[0], 0] = 1
 ```
 
-
-![png](output_7_0.png)
-
+<p align="center"><img src="output_7_0.png" /></p>
 
 To train the neural network, use the train method that takes in the following parameters.
 
@@ -67,8 +63,7 @@ Model.train(X, Y, 3000, 0.0001, batch_size = X.shape[0])
     Training Progress: 100%|██████████| 3000/3000 [00:23<00:00, 125.94it/s]
 
 
-
-![png](output_9_1.png)
+<p align="center"><img src="output_9_1.png" /></p>
 
 
 <div style="text-align: justify">X represents a 2D numpy (n x d) array where each row represents an instance of a data set. Y represents the target set (n x 1 numpy array), 3000 represents the number of epochs, 0.0001 is the learning rate, and batch_size simply is the size of your training batch (Note: if batch_size = X.shape[0], that gives the vanilla gradient descent algorithm). Now, lets plot the boundary curve from our model. </div>
@@ -94,9 +89,7 @@ plt.scatter(red[:, 0], red[:, 1], color = 'red')
 plt.show()
 ```
 
-
-![png](output_11_0.png)
-
+<p align="center"><img src="output_11_0.png" /></p>
 
 The train method allows other parameters to be passed in. For example, you can set the optimizer (optimizer), mometum type (mtype), and the momentum parameter (mu).
 
@@ -110,8 +103,7 @@ Model.train(X, Y, 6, 0.0001, batch_size = 300, mu = 0.0000001, mtype = 'nesterov
     Training Progress: 100%|██████████| 6/6 [00:38<00:00,  6.49s/it]
 
 
-
-![png](output_13_1.png)
+<p align="center"><img src="output_13_1.png" /></p>
 
 
 Again, you can plot the decision boundary and you will get a similar result.
@@ -136,9 +128,7 @@ plt.scatter(red[:, 0], red[:, 1], color = 'red')
 plt.show()
 ```
 
-
-![png](output_15_0.png)
-
+<p align="center"><img src="output_15_0.png" /></p>
 
 ## Regression
 
@@ -159,9 +149,7 @@ X = data[:,0].reshape((data[:,0].shape[0], 1))
 Y = data[:,1].reshape((data[:,1].shape[0], 1))
 ```
 
-
-![png](output_18_0.png)
-
+<p align="center"><img src="output_18_0.png" /></p>
 
 Next, create a linear regression model by calling in the Neural Network class with one regression layer.
 
@@ -180,8 +168,7 @@ Model.train(X, Y, 200, 0.00001, batch_size = X.shape[0])
     Training Progress: 100%|██████████| 200/200 [00:00<00:00, 3001.65it/s]
 
 
-
-![png](output_22_1.png)
+<p align="center"><img src="output_22_1.png" /></p>
 
 
 Finally, draw the line of best fit to the dataset.
@@ -195,9 +182,7 @@ plt.scatter(yellow_2[:, 0], yellow_2[:, 1], color = 'gold')
 plt.show()
 ```
 
-
-![png](output_24_0.png)
-
+<p align="center"><img src="output_24_0.png" /></p>
 
 ## Logistic Regression
 
@@ -218,8 +203,7 @@ Y = np.zeros((X.shape[0], 1))
 Y[0:orange.shape[0], 0] = 1
 ```
 
-
-![png](output_27_0.png)
+<p align="center"><img src="output_27_0.png" /></p>
 
 
 Create a logistic regression model by calling in Neural Network with one softmax layer.
@@ -239,8 +223,7 @@ Model.train(X, Y, 2, 0.001)
     Training Progress: 100%|██████████| 2/2 [00:01<00:00,  1.00it/s]
 
 
-
-![png](output_31_1.png)
+<p align="center"><img src="output_31_1.png" /></p>
 
 
 Finally, plot the decision boundary for the two gaussian clouds.
@@ -266,5 +249,4 @@ plt.scatter(purple[:, 0], purple[:, 1], color = 'purple')
 plt.show()
 ```
 
-
-![png](output_33_0.png)
+<p align="center"><img src="output_33_0.png" /></p>
