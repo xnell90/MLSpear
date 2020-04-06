@@ -7,18 +7,18 @@ from tqdm import tqdm
 
 class NeuralNetwork:
     #Parameters:
-    # layers      = an array of activation layers.
-    # scale_WB    = boolean that determines whether you scale weights and biases
-    # print_error = boolean that determines whether you print the error curve.
+    # layers             = an array of activation layers.
+    # scale_paramters    = boolean that determines whether you scale weights and biases
+    # print_error        = boolean that determines whether you print the error curve.
 
     #Returns:
     # None, but initialized, weights and biases are automatically initiazlized
     # with the option of scaling.
-    def __init__(self, layers, scale_WB = True, print_error = True):
-        self.layers      = layers
-        self.num_layers  = len(self.layers)
-        self.scale_WB    = scale_WB
-        self.print_error = print_error
+    def __init__(self, layers, scale_parameters = True, print_error = True):
+        self.layers           = layers
+        self.num_layers       = len(self.layers)
+        self.scale_parameters = scale_parameters
+        self.print_error      = print_error
 
         if self.layers[-1].output == softmax:
             self.error_function = cost_entropy
@@ -32,7 +32,7 @@ class NeuralNetwork:
     # Initializes weights and biases.
     def initialize_weights(self):
         for layer in self.layers:
-            layer.weight_initialize(self.scale_WB)
+            layer.weight_initialize(self.scale_parameters)
 
     #Parameters:
     # X     = numpy matrix where each column represents a predictor variable.
@@ -215,7 +215,7 @@ class NeuralNetwork:
         params = {}
         params['layers']      = self.layers
         params['num_layers']  = self.num_layers
-        params['scale_WB']    = self.scale_WB
+        params['scale_parameters']    = self.scale_parameters
         params['print_error'] = self.print_error
         params['error_metric'] = self.error_metric
 

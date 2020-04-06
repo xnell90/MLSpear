@@ -10,7 +10,7 @@ class BatchNormalization:
 
     #Returns:
     # None but initializes Gamma and Beta
-    def weight_initialize(self, scale_weights = True):
+    def weight_initialize(self, scale_parameters = True):
         self.Gamma = 1
         self.Beta  = 0
 
