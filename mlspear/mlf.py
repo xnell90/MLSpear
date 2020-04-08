@@ -71,22 +71,7 @@ def softmax(X):
 
 # Error Metrics
 def accuracy(P, Y):
-    return 1 - np.sum(np.abs(__round(P) - Y)) / (Y.shape[0] * Y.shape[1])
-
-def recall(P, Y):
-    return np.sum(__round(P) * Y) / np.sum(Y)
-
-# $$$$
-def __round(P):
-    if P.shape[1] == 1: return np.round(P)
-    else:
-        result = np.zeros(P.shape)
-        colmax = P.argmax(axis = 1)
-
-        for row in range(0, result.shape[0]):
-            result[row, colmax[row]] = 1
-
-        return result
+    return np.mean(P.argmax(axis = 1) == Y.argmax(axis = 1))
 
 def sum_squared_error(Y, P):
     return 0.5 * np.sum((Y - P) ** 2)
