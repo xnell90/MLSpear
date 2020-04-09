@@ -64,10 +64,11 @@ def softmax(X):
     if X.shape[1] == 1:
         return np.where(X >= 0, 1 / (1 + np.exp(- X)), np.exp(X) / (1 + np.exp(X)))
     else:
-        P = np.exp(X)
-        N = np.apply_along_axis(np.sum, 1, P).reshape((P.shape[0], 1))
+        Z = X - np.max(X, axis = 1).reshape(X.shape[0], 1)
+        P = np.exp(Z)
+        T = Z - np.log(np.sum(P, axis = 1).reshape((P.shape[0], 1)))
 
-        return P / N
+        return np.exp(T)
 
 # Error Metrics
 def accuracy(P, Y):
@@ -78,10 +79,9 @@ def sum_squared_error(Y, P):
 
 def cost_entropy(Y, P):
     if P.shape[1] == 1 and Y.shape[1] == 1:
-        column = np.log(P ** Y) + np.log((1 - P) ** (1 - Y))
-        result = - np.sum(column)
+        result = - np.sum(np.log(P ** Y) + np.log((1 - P) ** (1 - Y)))
     else:
-        result = - np.sum(np.log(P ** Y))
+        result = - np.sum(Y * np.log(np.clip(P, 1e-400, 1 - 1e-400)))
 
     return result
 
@@ -93,8 +93,20 @@ def roc(P, Y):
     p_s = [1 - i/999 for i in range(0, 1000)]
 
     for p in p_s:
-        PT = __round_by(p, P)
-        (fpr, tpr) = __tpr_fpr(PT, Y)
+        PT = [int(P[i] >= p) for i in range(0, len(P))]
+        (tp, fn) = (0, 0)
+        (fp, tn) = (0, 0)
+
+        for i in range(0, len(PT)):
+            if PT[i] == Y[i]:
+                if PT[i] == 1: tp += 1
+                else: tn += 1
+            else:
+                if PT[i] == 1: fp += 1
+                else: fn += 1
+
+        tpr = tp / (tp + fn)
+        fpr = fp / (tn + fp)
         x_fpr.append(fpr)
         y_tpr.append(tpr)
 
@@ -109,27 +121,6 @@ def roc(P, Y):
 
     print("AUC for the ROC Curve: " + str(auc))
     plt.show()
-
-# Hidden functions
-def __round_by(p, P):
-    return [int(P[i] >= p) for i in range(0, len(P))]
-
-def __tpr_fpr(PT, Y):
-    (tp, fn) = (0, 0)
-    (fp, tn) = (0, 0)
-
-    for i in range(0, len(PT)):
-        if PT[i] == Y[i]:
-            if PT[i] == 1: tp += 1
-            else: tn += 1
-        else:
-            if PT[i] == 1: fp += 1
-            else: fn += 1
-
-    tpr = tp / (tp + fn)
-    fpr = fp / (tn + fp)
-
-    return (fpr, tpr)
 
 # ---------------------------------------------------------------------------
 # Other Functions
