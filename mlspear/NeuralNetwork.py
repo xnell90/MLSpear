@@ -115,7 +115,7 @@ class NeuralNetwork:
         X_ = Data[:, 0:X.shape[1]]
         Y_ = Data[:, X.shape[1]:]
 
-        errors = []
+        if self.print_error: errors = []
         for i in tqdm(range(cycles), desc = 'Training Progress: '):
             for j in range(X_.shape[0]):
                 if j + batch_size > X_.shape[0]: break
@@ -125,8 +125,9 @@ class NeuralNetwork:
                 last_index = self.num_layers - 1
 
                 Y_batch = Y_[j:(j + batch_size), :]
-                error = self.error_function(Y_batch, P_batch)
-                errors.append(error)
+                if self.print_error:
+                    error = self.error_function(Y_batch, P_batch)
+                    errors.append(error)
 
                 D = P_batch - Y_batch
                 for i in range(last_index, -1, -1):
