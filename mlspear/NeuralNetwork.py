@@ -106,8 +106,8 @@ class NeuralNetwork:
 
     # Remark: To train the model stochastically, set batch_size to 1. For the
     # full gradient descent, set batch size to X.shape[0]
-    def train(self, X, Y, cycles, lr, batch_size = 20, mtype = 'conventional', mu = 0, l1 = 0, l2 = 0, optimizer = 'vanilla'):
-        self.initialize_weights()
+    def train(self, X, Y, cycles, lr, batch_size = 20, mtype = 'conventional', mu = 0, l1 = 0, l2 = 0, optimizer = 'vanilla', reinitialize_weights = True):
+        if reinitialize_weights: self.initialize_weights()
 
         Data = np.hstack((X, Y))
         np.random.shuffle(Data)
