@@ -7,9 +7,9 @@ from tqdm import tqdm
 
 class NeuralNetwork:
     #Parameters:
-    # layers             = an array of activation layers.
-    # scale_paramters    = boolean that determines whether you scale weights and biases
-    # print_error        = boolean that determines whether you print the error curve.
+    # layers          = an array of activation layers.
+    # scale_paramters = boolean that determines whether you scale weights and biases
+    # print_error     = boolean that determines whether you print the error curve.
 
     #Returns:
     # None, but initialized, weights and biases are automatically initiazlized
@@ -204,9 +204,7 @@ class NeuralNetwork:
 
             node_colors.append(color)
 
-        parameters = {'with_labels': False,
-                      'node_color': node_colors,
-                      'node_size': 50}
+        parameters = {'with_labels': False, 'node_color': node_colors, 'node_size': 50}
         nx.draw(G, posns, **parameters)
         plt.show()
 
@@ -214,10 +212,10 @@ class NeuralNetwork:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
         params = {}
-        params['layers']      = self.layers
-        params['num_layers']  = self.num_layers
-        params['scale_parameters']    = self.scale_parameters
-        params['print_error'] = self.print_error
-        params['error_metric'] = self.error_metric
+        params['layers']           = self.layers
+        params['num_layers']       = self.num_layers
+        params['scale_parameters'] = self.scale_parameters
+        params['print_error']      = self.print_error
+        params['error_metric']     = self.error_metric
 
         return params
