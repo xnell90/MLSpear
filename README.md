@@ -16,8 +16,8 @@ from mlspear import *
 
 
 ```python
-Model = NeuralNetwork([Tanh(2, 8), PReLU(8, 8), Classification(8, 1)], print_error = True)
-Model.draw_neural_network()
+model = NeuralNetwork([Tanh(2, 8), PReLU(8, 8), Classification(8, 1)], print_error = True)
+model.draw_neural_network()
 ```
 
 <p align="center"><img src="output_5_0.png" /></p>
@@ -57,7 +57,7 @@ To train the neural network, use the train method that takes in the following pa
 
 
 ```python
-Model.train(X, Y, 3000, 0.0001, batch_size = X.shape[0])
+model.train(X, Y, 3000, 0.0001, batch_size = X.shape[0])
 ```
 
     Training Progress: 100%|██████████| 3000/3000 [00:23<00:00, 125.94it/s]
@@ -77,7 +77,7 @@ for x in np.linspace(-3, 3, 1000):
     for y in np.linspace(-3, 3, 1000):
 
         point = np.array([x, y])
-        prediction = Model.predict(point)
+        prediction = model.predict(point)
 
         if np.abs(prediction - 0.5) < 0.01:
             boundary.append([x, y])
@@ -95,7 +95,7 @@ The train method allows other parameters to be passed in. For example, you can s
 
 
 ```python
-Model.train(X, Y, 6, 0.0001, batch_size = 300, mu = 0.0000001, mtype = 'nesterov', optimizer = 'rmsprop')
+model.train(X, Y, 6, 0.0001, batch_size = 300, mu = 0.0000001, mtype = 'nesterov', optimizer = 'rmsprop')
 # To add momentum, simply include the mtype parameter, set it to either 'nesterov' or 'conventional',
 # and set mu to a number between 0 and 1.
 ```
@@ -116,7 +116,7 @@ for x in np.linspace(-3, 3, 1000):
     for y in np.linspace(-3, 3, 1000):
 
         point = np.array([x, y])
-        prediction = Model.predict(point)
+        prediction = model.predict(point)
 
         if np.abs(prediction - 0.5) < 0.01:
             boundary.append([x, y])
@@ -155,14 +155,14 @@ Next, create a linear regression model by calling in the Neural Network class wi
 
 
 ```python
-Model = NeuralNetwork([Regression(1, 1)], print_error = True)
+model = NeuralNetwork([Regression(1, 1)], print_error = True)
 ```
 
 Train the model using vanilla gradient descent with 200 epochs at learning rate 0.00001 (Note: you can use any gradient descent method).
 
 
 ```python
-Model.train(X, Y, 200, 0.00001, batch_size = X.shape[0])
+model.train(X, Y, 200, 0.00001, batch_size = X.shape[0])
 ```
 
     Training Progress: 100%|██████████| 200/200 [00:00<00:00, 3001.65it/s]
@@ -175,7 +175,7 @@ Finally, draw the line of best fit to the dataset.
 
 
 ```python
-Y_hat = Model.predict(X)
+Y_hat = model.predict(X)
 plt.plot(X, Y_hat, color = 'blue')
 plt.scatter(yellow_1[:, 0], yellow_1[:, 1], color = 'gold')
 plt.scatter(yellow_2[:, 0], yellow_2[:, 1], color = 'gold')
@@ -210,14 +210,14 @@ Create a logistic regression model by calling in Neural Network with one softmax
 
 
 ```python
-Model = NeuralNetwork([Classification(2, 1)], print_error = True)
+model = NeuralNetwork([Classification(2, 1)], print_error = True)
 ```
 
 Train the model using batch gradient descent (or any gradient descent methods).
 
 
 ```python
-Model.train(X, Y, 2, 0.001)
+model.train(X, Y, 2, 0.001)
 ```
 
     Training Progress: 100%|██████████| 2/2 [00:01<00:00,  1.00it/s]
@@ -237,7 +237,7 @@ for x in np.linspace(-4, 8, 1000):
     for y in np.linspace(-4, 8, 1000):
 
         point = np.array([x, y])
-        prediction = Model.predict(point)
+        prediction = model.predict(point)
 
         if np.abs(prediction - 0.5) < 0.001:
             boundary.append([x, y])
