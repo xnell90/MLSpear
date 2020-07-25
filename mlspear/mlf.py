@@ -79,7 +79,7 @@ def sum_squared_error(Y, P):
 
 def cost_entropy(Y, P):
     if P.shape[1] == 1 and Y.shape[1] == 1:
-        result = - np.sum(np.log(P ** Y) + np.log((1 - P) ** (1 - Y)))
+        result = - np.sum(Y * np.log(P) + (1 - Y) * np.log(1 - P))
     else:
         result = - np.sum(Y * np.log(np.clip(P, 1e-400, 1 - 1e-400)))
 
