@@ -13,7 +13,7 @@ class BoundedReLU:
     # initialized and scaled.
     def __init__(self, indims, outdims, p = 1, a = 1):
         self.activation = (lambda z: np.minimum(np.maximum(np.zeros(z.shape), z), a))
-        self.derivative = (lambda z: np.where((z > 0) & (z <= a), 0, 1))
+        self.derivative = (lambda z: np.where((z > 0) & (z <= a), 1, 0))
 
         self.indims  = indims
         self.outdims = outdims
