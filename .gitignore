@@ -1,0 +1,6 @@
+*.DS_Store
+.ipynb_checkpoints/
+MLSpear_Examples.ipynb
+mlspear/NonOutputLayers/__pycache__/
+mlspear/OutputLayers/__pycache__/
+mlspear/__pycache__/
