@@ -11,12 +11,12 @@ class PReLU:
     #Returns:
     # None, but once PReLU layer is initialized, weights and biases are automatically
     # initialized and scaled.
-    def __init__(self, indims, outdims, p = 1):
-        self.activation   = (lambda p, a: np.where(a < 0, p * a, a))
+    def __init__(self, indims, outdims, p=1):
+        self.activation = (lambda p, a: np.where(a < 0, p * a, a))
         self.derivative_a = (lambda p, a: np.where(a < 0, p, 1))
         self.derivative_p = (lambda a: np.where(a < 0, a, 0))
 
-        self.indims  = indims
+        self.indims = indims
         self.outdims = outdims
 
         self.p = p
@@ -30,15 +30,15 @@ class PReLU:
 
     #Returns:
     # None but initializes the weights and biases
-    def weight_initialize(self, scale_parameters = True):
+    def weight_initialize(self, scale_parameters=True):
         self.W = np.random.randn(self.indims, self.outdims)
         self.B = np.random.randn(1, self.outdims)
         self.P = np.random.randn(1, self.outdims)
 
         self.Del_W, self.Del_B, self.Del_P = 0, 0, 0
-        self.G_W,   self.G_B,   self.G_P   = 1, 1, 1
-        self.M_W,   self.M_B,   self.M_P   = 0, 0, 0
-        self.V_W,   self.V_B,   self.V_P   = 0, 0, 0
+        self.G_W, self.G_B, self.G_P = 1, 1, 1
+        self.M_W, self.M_B, self.M_P = 0, 0, 0
+        self.V_W, self.V_B, self.V_P = 0, 0, 0
 
         if scale_parameters:
             scale = np.sqrt(2 / (self.indims + self.outdims))
@@ -169,7 +169,7 @@ class PReLU:
     #Returns:
     # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
     # backpropagated to the previous layer
-    def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
+    def ada_backward(self, D, lr, mtype, mu, l1, l2, e=1e-9):
         self.G_W = self.G_W + ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
         self.G_B = self.G_B + (row_sum(D * self.derivative_a(self.P, self.H)) ** 2)
         self.G_P = self.G_P + (row_sum(D * self.derivative_p(self.H)) ** 2)
@@ -205,7 +205,7 @@ class PReLU:
     #Returns:
     # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
     # backpropagated to the previous layer
-    def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9, g = 0.9):
+    def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e=1e-9, g=0.9):
         self.G_W = g * self.G_W + (1 - g) * ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
         self.G_B = g * self.G_B + (1 - g) * (row_sum(D * self.derivative_a(self.P, self.H)) ** 2)
         self.G_P = g * self.G_P + (1 - g) * (row_sum(D * self.derivative_p(self.H)) ** 2)
@@ -241,7 +241,7 @@ class PReLU:
     #Returns:
     # (D * (self.derivative(self.H))).dot((self.W).T) a numpy matrix
     # backpropagated to the previous layer
-    def adam_backward(self, D, lr, mtype, mu, t, l1, l2, b = 0.9, d = 0.9, e = 1e-9):
+    def adam_backward(self, D, lr, mtype, mu, t, l1, l2, b=0.9, d=0.9, e=1e-9):
         self.M_W = b * self.M_W + (1 - b) * ((self.A).T).dot(D * self.derivative_a(self.P, self.H))
         self.V_W = d * self.V_W + (1 - d) * ((((self.A).T).dot(D * self.derivative_a(self.P, self.H))) ** 2)
 
@@ -278,14 +278,14 @@ class PReLU:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
         params = {}
-        params['activation']   = self.activation
+        params['activation'] = self.activation
         params['derivative_a'] = self.derivative_a
         params['derivative_p'] = self.derivative_p
-        params['W']            = self.W
-        params['B']            = self.B
-        params['P']            = self.P
-        params['indims']       = self.indims
-        params['outdims']      = self.outdims
-        params['p']            = self.p
+        params['W'] = self.W
+        params['B'] = self.B
+        params['P'] = self.P
+        params['indims'] = self.indims
+        params['outdims'] = self.outdims
+        params['p'] = self.p
 
         return params

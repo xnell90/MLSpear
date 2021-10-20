@@ -5,14 +5,14 @@ from mlspear.mlf import *
 class BatchNormalization:
 
     def __init__(self):
-        self.mu    = 0
+        self.mu = 0
         self.sigma = 1
 
     #Returns:
     # None but initializes Gamma and Beta
-    def weight_initialize(self, scale_parameters = True):
+    def weight_initialize(self, scale_parameters=True):
         self.Gamma = 1
-        self.Beta  = 0
+        self.Beta = 0
 
     #Parameters:
     # lr     = learning rate
@@ -23,7 +23,7 @@ class BatchNormalization:
     # None but updates Gamma and Beta
     def weight_update(self, lr, A_norm, D):
         self.Gamma = self.Gamma - lr * row_sum(A_norm.T.dot(D))
-        self.Beta  = self.Beta  - lr * row_sum(D)
+        self.Beta = self.Beta  - lr * row_sum(D)
 
     #Parameters:
     # A     = input numpy matrix
@@ -34,10 +34,10 @@ class BatchNormalization:
 
     #Returns:
     # a numpy matrix for forward propagation.
-    def train_forward(self, A, mtype, mu, e = 1e-9, alpha = 0.9):
+    def train_forward(self, A, mtype, mu, e=1e-9, alpha=0.9):
         self.A  = A
 
-        mu_b    = np.mean(A, axis = 0).reshape((1, A.shape[1]))
+        mu_b = np.mean(A, axis = 0).reshape((1, A.shape[1]))
         sigma_b = np.std(A, axis = 0).reshape((1, A.shape[1]))
 
         A_norm  = (A - mu_b) / np.sqrt((sigma_b ** 2) + e)
@@ -55,7 +55,7 @@ class BatchNormalization:
 
     #Returns:
     # a numpy matrix for forward propagation.
-    def forward(self, A, mtype, mu, e = 1e-9):
+    def forward(self, A, mtype, mu, e=1e-9):
         A_norm  = (A - self.mu) / np.sqrt((self.sigma ** 2) + e)
 
         return self.Gamma * (A_norm) + self.Beta
@@ -75,7 +75,7 @@ class BatchNormalization:
 
     #Returns:
     # a backpropagated numpy matrix.
-    def backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
+    def backward(self, D, lr, mtype, mu, l1, l2, e=1e-9):
         A_norm  = (self.A - self.mu) / np.sqrt((self.sigma ** 2) + e)
         self.weight_update(lr, A_norm, D)
 
@@ -96,8 +96,8 @@ class BatchNormalization:
 
     #Returns:
     # a backpropagated numpy matrix.
-    def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
-        return self.backward(D, lr, mtype, mu, l1, l2, e = 1e-9)
+    def ada_backward(self, D, lr, mtype, mu, l1, l2, e=1e-9):
+        return self.backward(D, lr, mtype, mu, l1, l2, e=1e-9)
 
     #Paramters:
     # D  = a numpy matrix that is produced by backpropagtion from the layer
@@ -114,8 +114,8 @@ class BatchNormalization:
 
     #Returns:
     # a backpropagated numpy matrix.
-    def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
-        return self.backward(D, lr, mtype, mu, l1, l2, e = 1e-9)
+    def rmsprop_backward(self, D, lr, mtype, mu, l1, l2, e=1e-9):
+        return self.backward(D, lr, mtype, mu, l1, l2, e=1e-9)
 
     #Paramters:
     # D  = a numpy matrix that is produced by backpropagtion from the layer
@@ -132,5 +132,5 @@ class BatchNormalization:
 
     #Returns:
     # a backpropagated numpy matrix.
-    def adam_backward(self, D, lr, mtype, mu, t, l1, l2, e = 1e-9):
-        return self.backward(D, lr, mtype, mu, l1, l2, e = 1e-9)
+    def adam_backward(self, D, lr, mtype, mu, t, l1, l2, e=1e-9):
+        return self.backward(D, lr, mtype, mu, l1, l2, e=1e-9)

@@ -11,9 +11,9 @@ class Classification:
     # None, but once Softmax layer is initialized, weights and biases are automatically
     # initialized and scaled.
     def __init__(self, indims, outdims):
-        self.output  = softmax
+        self.output = softmax
 
-        self.indims  = indims
+        self.indims = indims
         self.outdims = outdims
 
         self.p = 1
@@ -27,13 +27,13 @@ class Classification:
 
     #Returns:
     # None
-    def weight_initialize(self, scale_parameters = True):
+    def weight_initialize(self, scale_parameters=True):
         self.W = np.random.randn(self.indims, self.outdims)
         self.B = np.random.randn(1, self.outdims)
 
-        self.Del_W, self.Del_B                   = 0, 0
-        self.G_W,   self.G_B                     = 1, 1
-        self.M_W,   self.V_W, self.M_B, self.V_B = 0, 0, 0, 0
+        self.Del_W, self.Del_B = 0, 0
+        self.G_W, self.G_B = 1, 1
+        self.M_W, self.V_W, self.M_B, self.V_B = 0, 0, 0, 0
 
         if scale_parameters:
             scale = np.sqrt(2 / (self.indims + self.outdims))
@@ -123,7 +123,7 @@ class Classification:
 
     #Returns:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
-    def ada_backward(self, D, lr, mtype, mu, l1, l2, e = 1e-9):
+    def ada_backward(self, D, lr, mtype, mu, l1, l2, e=1e-9):
         self.G_W = self.G_W + (((self.A).T).dot(D) ** 2)
         self.G_B = self.G_B + (row_sum(D) ** 2)
 
@@ -187,7 +187,7 @@ class Classification:
 
     #Returns:
     # D.dot((self.W).T) a numpy matrix backpropagated to the previous layer
-    def adam_backward(self, D, lr, mtype, mu, t, l1, l2, b = 0.9, d = 0.9, e = 1e-9):
+    def adam_backward(self, D, lr, mtype, mu, t, l1, l2, b=0.9, d=0.9, e=1e-9):
         self.M_W = b * self.M_W + (1 - b) * ((self.A).T).dot(D)
         self.V_W = d * self.V_W + (1 - d) * ((((self.A).T).dot(D)) ** 2)
 
@@ -215,11 +215,11 @@ class Classification:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
         params = {}
-        params['output']     = self.output
-        params['W']          = self.W
-        params['B']          = self.B
-        params['indims']     = self.indims
-        params['outdims']    = self.outdims
-        params['p']          = self.p
+        params['W'] = self.W
+        params['B'] = self.B
+        params['p'] = self.p
+        params['output'] = self.output
+        params['indims'] = self.indims
+        params['outdims'] = self.outdims
 
         return params

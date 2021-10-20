@@ -14,18 +14,18 @@ class NeuralNetwork:
     #Returns:
     # None, but initialized, weights and biases are automatically initiazlized
     # with the option of scaling.
-    def __init__(self, layers, scale_parameters = True, print_error = True):
-        self.layers           = layers
-        self.num_layers       = len(self.layers)
+    def __init__(self, layers, scale_parameters=True, print_error=True):
+        self.layers = layers
+        self.num_layers = len(self.layers)
+        self.print_error = print_error
         self.scale_parameters = scale_parameters
-        self.print_error      = print_error
 
         if self.layers[-1].output == softmax:
             self.error_function = cost_entropy
-            self.error_metric   = "Cost Entropy"
+            self.error_metric = "Cost Entropy"
         else:
             self.error_function = sum_squared_error
-            self.error_metric   = "Sum Squared Error"
+            self.error_metric = "Sum Squared Error"
 
         self.initialize_weights()
 
@@ -42,7 +42,7 @@ class NeuralNetwork:
 
     #Returns:
     # a numpy matrix used to forward propagate.
-    def dropout_predict(self, X, mtype = 'conventional', mu = 0):
+    def dropout_predict(self, X, mtype='conventional', mu=0):
         P = X
         for layer in self.layers:
             if type(layer).__name__ == "BatchNormalization":
@@ -62,7 +62,7 @@ class NeuralNetwork:
 
     #Returns:
     # a numpy matrix where each value represents a prediction
-    def predict(self, X, mtype = 'conventional', mu = 0):
+    def predict(self, X, mtype='conventional', mu=0):
         P = X
         for layer in self.layers:
             P = layer.forward(P, mtype, mu)
@@ -106,7 +106,7 @@ class NeuralNetwork:
 
     # Remark: To train the model stochastically, set batch_size to 1. For the
     # full gradient descent, set batch size to X.shape[0]
-    def train(self, X, Y, cycles, lr, batch_size = 20, mtype = 'conventional', mu = 0, l1 = 0, l2 = 0, optimizer = 'vanilla', reinitialize_weights = True):
+    def train(self, X, Y, cycles, lr, batch_size=20, mtype='conventional', mu=0, l1=0, l2=0, optimizer='vanilla', reinitialize_weights=True):
         if reinitialize_weights: self.initialize_weights()
 
         Data = np.hstack((X, Y))
@@ -149,7 +149,7 @@ class NeuralNetwork:
     #Returns:
     # a graphical display of the neural network architecture (excluding Batch_Normalization layers)
     def draw_neural_network(self):
-        num_node    = []
+        num_node = []
         seen_non_batch_layer = False
 
         for layer in self.layers:
@@ -212,10 +212,10 @@ class NeuralNetwork:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
         params = {}
-        params['layers']           = self.layers
-        params['num_layers']       = self.num_layers
+        params['layers'] = self.layers
+        params['num_layers'] = self.num_layers
+        params['print_error'] = self.print_error
+        params['error_metric'] = self.error_metric
         params['scale_parameters'] = self.scale_parameters
-        params['print_error']      = self.print_error
-        params['error_metric']     = self.error_metric
 
         return params

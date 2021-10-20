@@ -11,7 +11,7 @@ def min_max(X):
 
 def mean_std(X):
     means = list(X.mean(axis = 0))
-    stds  = list(X.std(axis = 0))
+    stds = list(X.std(axis = 0))
 
     return (means, stds)
 
@@ -21,12 +21,12 @@ def min_max_scaling(X, mins, maxs):
         maximum = maxs[i]
 
         spread = maximum - minimum
-        X[:, i] =  (X[:, i] - minimum) / spread
+        X[:, i] = (X[:, i] - minimum) / spread
 
 def z_score_scaling(X, means, stds):
     for i in range(0, X.shape[1]):
         mean = means[i]
-        std  = stds[i]
+        std = stds[i]
 
         X[:, i] =  (X[:, i] - mean) / std
 
@@ -50,12 +50,12 @@ def train_test_split(X, include_val_set = True):
 
         X_train = X[0:i, :]
         X_valid = X[i:j, :]
-        X_test  = X[j:, :]
+        X_test = X[j:, :]
 
         return (X_train, X_valid, X_test)
     else:
         X_train = X[0:i, :]
-        X_test  = X[i:, :]
+        X_test = X[i:, :]
 
         return (X_train, X_test)
 
