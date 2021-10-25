@@ -165,7 +165,7 @@ class NeuralNetwork:
                 else:
                     num_node.append(layer.outdims + 1)
 
-        G = nx.DiGraph()
+        graph = nx.DiGraph()
 
         posns = {}
         num_layers = len(num_node)
@@ -176,7 +176,7 @@ class NeuralNetwork:
             num_nodes = num_node[i]
 
             for j in range(num_nodes):
-                G.add_node((i, j))
+                graph.add_node((i, j))
                 layer.append((i, j))
 
                 posns[(i, j)] = [i + 1, - j + (num_nodes // 2)]
@@ -185,15 +185,15 @@ class NeuralNetwork:
 
         for i in range(num_layers - 1):
             current_layer = layers[i]
-            next_layer    = layers[i + 1]
+            next_layer = layers[i + 1]
 
             for current_node in current_layer:
                 for next_node in next_layer:
                     if next_node[1] != 0 or next_node[0] == num_layers - 1:
-                        G.add_edge(current_node, next_node)
+                        graph.add_edge(current_node, next_node)
 
         node_colors = []
-        for node in G:
+        for node in graph:
             color = ""
 
             if node[1] == 0: color += 'dark'
@@ -205,7 +205,7 @@ class NeuralNetwork:
             node_colors.append(color)
 
         parameters = {'with_labels': False, 'node_color': node_colors, 'node_size': 50}
-        nx.draw(G, posns, **parameters)
+        nx.draw(graph, posns, **parameters)
         plt.show()
 
     #Returns:
