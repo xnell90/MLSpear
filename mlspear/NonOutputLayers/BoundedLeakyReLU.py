@@ -7,6 +7,7 @@ class BoundedLeakyReLU:
     # indims  = the number of input dimensions (positive integer)
     # outdims = the number of output dimensions (positive integer)
     # p       = the drop out rate. Default value is 1.
+    # a       = ...
 
     #Returns:
     # None, but once BoundedLeakyReLU layer is initialized, weights and biases are automatically
@@ -19,6 +20,7 @@ class BoundedLeakyReLU:
         self.outdims = outdims
 
         self.p = p
+        self.a = a
 
         self.weight_initialize()
 
@@ -252,13 +254,12 @@ class BoundedLeakyReLU:
     #Returns:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
-        params = {}
-        params['activation'] = self.activation
-        params['derivative'] = self.derivative
-        params['W'] = self.W
-        params['B'] = self.B
-        params['indims'] = self.indims
-        params['outdims'] = self.outdims
-        params['p'] = self.p
-
-        return params
+        return {
+            'activation': self.activation,
+            'derivative': self.derivative,
+            'W': self.W,
+            'B': self.B,
+            'indims': self.indims,
+            'outdims': self.outdims,
+            'p': self.p
+        }

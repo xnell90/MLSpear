@@ -251,13 +251,12 @@ class Tanh:
     #Returns:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
-        params = {}
-        params['activation'] = self.activation
-        params['derivative'] = self.derivative
-        params['W'] = self.W
-        params['B'] = self.B
-        params['indims'] = self.indims
-        params['outdims'] = self.outdims
-        params['p'] = self.p
-
-        return params
+        return {
+            'activation': self.activation,
+            'derivative': self.derivative,
+            'W': self.W,
+            'B': self.B,
+            'indims': self.indims,
+            'outdims': self.outdims,
+            'p': self.p
+        }

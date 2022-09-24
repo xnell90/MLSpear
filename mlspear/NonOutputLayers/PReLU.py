@@ -277,15 +277,14 @@ class PReLU:
     #Returns:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
-        params = {}
-        params['activation'] = self.activation
-        params['derivative_a'] = self.derivative_a
-        params['derivative_p'] = self.derivative_p
-        params['W'] = self.W
-        params['B'] = self.B
-        params['P'] = self.P
-        params['indims'] = self.indims
-        params['outdims'] = self.outdims
-        params['p'] = self.p
-
-        return params
+        return {
+            'activation': self.activation,
+            'derivative_a': self.derivative_a,
+            'derivative_p': self.derivative_p,
+            'W': self.W,
+            'B': self.B,
+            'P': self.P,
+            'indims': self.indims,
+            'outdims': self.outdims,
+            'p': self.p
+        }

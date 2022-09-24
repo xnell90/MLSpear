@@ -214,12 +214,11 @@ class Regression:
     #Returns:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
-        params = {}
-        params['W'] = self.W
-        params['B'] = self.B
-        params['p'] = self.p
-        params['output'] = self.output
-        params['indims'] = self.indims
-        params['outdims'] = self.outdims
-
-        return params
+        return {
+            'W': self.W,
+            'B': self.B,
+            'p': self.p,
+            'output': self.output,
+            'indims': self.indims,
+            'outdims': self.outdims
+        }
