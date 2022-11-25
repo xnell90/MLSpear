@@ -211,11 +211,10 @@ class NeuralNetwork:
     #Returns:
     # a python dictionary that contains all parameters in this layer.
     def params(self):
-        params = {}
-        params['layers'] = self.layers
-        params['num_layers'] = self.num_layers
-        params['print_error'] = self.print_error
-        params['error_metric'] = self.error_metric
-        params['scale_parameters'] = self.scale_parameters
-
-        return params
+        return {
+            'layers': self.layers,
+            'num_layers': self.num_layers,
+            'print_error': self.print_error,
+            'error_metric': self.error_metric,
+            'scale_paramters': self.scale_parameters
+        }
