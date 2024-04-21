@@ -15,7 +15,7 @@ class Tanh:
         self.activation = (lambda z: np.tanh(z))
         self.derivative = (lambda z: 1 - (np.tanh(z) ** 2))
 
-        self.indims  = indims
+        self.indims = indims
         self.outdims = outdims
 
         self.p = p
